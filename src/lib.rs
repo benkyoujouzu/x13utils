@@ -22,25 +22,20 @@ impl NumberImage {
 
     pub fn update(&mut self, num: f32) {
         let num_string;
-        if num >= 10.0 || num <= -10.0 {
+        if num >= 9.95 || num <= -9.95 {
             num_string = format!("{}", num.round() as i32);
         } else {
             num_string = format!("{:.1}", num);
         }
         let icon_width = 64.0;
+        let height = 40.0;
         let scale = Scale {
-            x: icon_width,
-            y: icon_width
+            x: height,
+            y: height
         };
-        let (w, _) = text_size(scale, &self.font, &num_string);
-        let width = icon_width / (w as f32) * (icon_width - 2.0);
-        let scale = Scale {
-            x: width,
-            y: width
-        };
-
-        let x = 1;
-        let y = ((icon_width - width) / 2.0) as i32;
+        let (width, _) = text_size(scale, &self.font, &num_string);
+        let x = ((icon_width - width as f32) / 2.0) as i32;
+        let y = ((icon_width - height) / 2.0) as i32;
         let color = Rgba([255u8, 255u8, 255u8, 255u8]);
         self.image.fill(0);
         draw_text_mut(&mut self.image, color, x, y, scale, &self.font, &num_string);

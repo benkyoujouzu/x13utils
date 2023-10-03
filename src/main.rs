@@ -29,7 +29,7 @@ fn main() {
 
     let icon = Icon::from_rgba(number_image.image.as_raw().clone(), 64, 64).unwrap();
     let tray_icon = TrayIconBuilder::new()
-        // .with_tooltip("system-tray - tray icon library!")
+        .with_tooltip("charge rate")
         .with_menu(Box::new(tray_menu))
         .with_icon(icon)
         .build()
@@ -39,7 +39,7 @@ fn main() {
     let event_loop = EventLoopBuilder::new().build();
 
     event_loop.run(move |event, _, control_flow| {
-        let update_time = Duration::from_millis(5000);
+        let update_time = Duration::from_millis(3000);
         *control_flow = ControlFlow::WaitUntil(Instant::now() + update_time);
 
         match event {
@@ -50,7 +50,6 @@ fn main() {
                 let new_icon =
                     Icon::from_rgba(number_image.image.as_raw().clone(), 64, 64).unwrap();
                 tray_icon.set_icon(Some(new_icon)).unwrap();
-                // println!("{}", charge_rate);
             }
             _ => {
                 if let Ok(event) = menu_channel.try_recv() {
